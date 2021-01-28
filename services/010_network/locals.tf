@@ -35,29 +35,29 @@ locals {
 
     vpc_tags = {
       Environment = var.environment
-      Namespace   = "core-services"
+      Namespace   = "shared-services"
     }
 
     //peering_name     = var.vpc_peering_name
 
     app_route_table_tags = {
       Environment = var.environment
-      Namespace   = "core-services"
+      Namespace   = "shared-services"
     }
 
     prod_route_table_tags = {
       Environment = var.environment
-      Namespace   = "core-services"
+      Namespace   = "shared-services"
     }
 
     qa_route_table_tags = {
       Environment = var.environment
-      Namespace   = "core-services"
+      Namespace   = "shared-services"
     }
 
     dev_route_table_tags = {
       Environment = var.environment
-      Namespace   = "core-services"
+      Namespace   = "shared-services"
     }
 
     peering = {
@@ -79,7 +79,7 @@ locals {
 
         acceptor_tags = {
           Environment = var.environment
-          Namespace   = "core-services"
+          Namespace   = "shared-services"
         }
       }
     }
@@ -88,15 +88,15 @@ locals {
 
   env = {
 
-    app = {
+    appadmin = {
 
       # ------
       # APP Admin
       # ------
 
-      app = {
+      appadmin = {
 
-        subnets = var.vpc_app_subnets
+        subnets = var.vpc_appadmin_subnets
 
         subnet_tags = {
           Environment  = var.environment
@@ -185,7 +185,7 @@ locals {
 
       qa = {
 
-        subnets = var.vpc_qa_subnets
+        subnets = var.vpc_qaman_subnets
 
         subnet_tags = {
           Environment  = var.environment
@@ -350,7 +350,7 @@ locals {
 
       dev = {
 
-        subnets = var.vpc_dev_subnets
+        subnets = var.vpc_devman_subnets
 
         subnet_tags = {
           Environment  = var.environment
@@ -506,15 +506,15 @@ locals {
       }
     }
 
-    prod = {
+    prodman = {
 
       # ------
       # PROD MAN
       # ------
 
-      prod = {
+      prodman = {
 
-        subnets = var.vpc_prod_subnets
+        subnets = var.vpc_prodman_subnets
 
         subnet_tags = {
           Environment  = var.environment

@@ -68,97 +68,97 @@ variable "vpc_tags" {
   default     = {}
 }
 
-variable "app_subnet_tags" {
+variable "appadmin_subnet_tags" {
   description = "Additional tags for the app subnets"
   type        = map(string)
   default     = {}
 }
 
-variable "prod_subnet_tags" {
+variable "prodman_subnet_tags" {
   description = "Additional tags for the Web subnets"
   type        = map(string)
   default     = {}
 }
 
-variable "qa_subnet_tags" {
+variable "qaman_subnet_tags" {
   description = "Additional tags for the Web subnets"
   type        = map(string)
   default     = {}
 }
 
-variable "dev_subnet_tags" {
+variable "devman_subnet_tags" {
   description = "Additional tags for the Web subnets"
   type        = map(string)
   default     = {}
 }
 
-variable "app_security_group_tags" {
+variable "appadmin_security_group_tags" {
   description = "Additional tags for the Security Group"
   type        = map(string)
   default     = {}
 }
 
-variable "qa_security_group_tags" {
+variable "qaman_security_group_tags" {
   description = "Additional tags for the Security Group"
   type        = map(string)
   default     = {}
 }
 
-variable "prod_security_group_tags" {
+variable "prodman_security_group_tags" {
   description = "Additional tags for the Security Group"
   type        = map(string)
   default     = {}
 }
 
-variable "dev_security_group_tags" {
+variable "devman_security_group_tags" {
   description = "Additional tags for the Security Group"
   type        = map(string)
   default     = {}
 }
 
-variable "app_acl_tags" {
+variable "appadmin_acl_tags" {
   description = "Additional tags for the app subnets network ACL"
   type        = map(string)
   default     = {}
 }
 
-variable "prod_acl_tags" {
+variable "prodman_acl_tags" {
   description = "Additional tags for the prod subnets network ACL"
   type        = map(string)
   default     = {}
 }
 
-variable "qa_acl_tags" {
+variable "qaman_acl_tags" {
   description = "Additional tags for the prod subnets network ACL"
   type        = map(string)
   default     = {}
 }
 
-variable "dev_acl_tags" {
+variable "devman_acl_tags" {
   description = "Additional tags for the prod subnets network ACL"
   type        = map(string)
   default     = {}
 }
 
-variable "app_route_table_tags" {
+variable "appadmin_route_table_tags" {
   description = "Additional tags for the app route tables"
   type        = map(string)
   default     = {}
 }
 
-variable "prod_route_table_tags" {
+variable "prodman_route_table_tags" {
   description = "Additional tags for the prod route tables"
   type        = map(string)
   default     = {}
 }
 
-variable "qa_route_table_tags" {
+variable "qaman_route_table_tags" {
   description = "Additional tags for the qa route tables"
   type        = map(string)
   default     = {}
 }
 
-variable "dev_route_table_tags" {
+variable "devman_route_table_tags" {
   description = "Additional tags for the dev route tables"
   type        = map(string)
   default     = {}
@@ -166,56 +166,56 @@ variable "dev_route_table_tags" {
 
 //Suffix
 
-variable "app_subnet_suffix" {
+variable "appadmin_subnet_suffix" {
   description = "Suffix to append to WEB subnets name"
   type        = string
   default     = ""
 }
 
-variable "prod_subnet_suffix" {
+variable "prodman_subnet_suffix" {
   description = "Suffix to append to API subnets name"
   type        = string
   default     = ""
 }
 
-variable "qa_subnet_suffix" {
+variable "qaman_subnet_suffix" {
   description = "Suffix to append to API subnets name"
   type        = string
   default     = ""
 }
 
-variable "dev_subnet_suffix" {
+variable "devman_subnet_suffix" {
   description = "Suffix to append to API subnets name"
   type        = string
   default     = ""
 }
 
 //Subnets
-variable "app_subnets" {
+variable "appadmin_subnets" {
   description = "A list of web subnets inside the VPC"
   type        = list(string)
   default     = []
 }
 
-variable "prod_subnets" {
+variable "prodman_subnets" {
   description = "A list of API subnets inside the VPC"
   type        = list(string)
   default     = []
 }
 
-variable "qa_subnets" {
+variable "qaman_subnets" {
   description = "A list of API subnets inside the VPC"
   type        = list(string)
   default     = []
 }
 
-variable "dev_subnets" {
+variable "devman_subnets" {
   description = "A list of API subnets inside the VPC"
   type        = list(string)
   default     = []
 }
 //SG
-variable "app_ingress_rules" {
+variable "appadmin_ingress_rules" {
   type = list(object({
     from_port   = number
     to_port     = number
@@ -226,7 +226,7 @@ variable "app_ingress_rules" {
   default = []
 }
 
-variable "app_egress_rules" {
+variable "appadmin_egress_rules" {
   type = list(object({
     from_port   = number
     to_port     = number
@@ -237,7 +237,7 @@ variable "app_egress_rules" {
   default = []
 }
 
-variable "prod_ingress_rules" {
+variable "prodman_ingress_rules" {
   type = list(object({
     from_port   = number
     to_port     = number
@@ -249,7 +249,7 @@ variable "prod_ingress_rules" {
 }
 
 
-variable "prod_egress_rules" {
+variable "prodman_egress_rules" {
   type = list(object({
     from_port   = number
     to_port     = number
@@ -260,7 +260,7 @@ variable "prod_egress_rules" {
   default = []
 }
 
-variable "qa_ingress_rules" {
+variable "qaman_ingress_rules" {
   type = list(object({
     from_port   = number
     to_port     = number
@@ -271,7 +271,7 @@ variable "qa_ingress_rules" {
   default = []
 }
 
-variable "qa_egress_rules" {
+variable "qaman_egress_rules" {
   type = list(object({
     from_port   = number
     to_port     = number
@@ -282,7 +282,7 @@ variable "qa_egress_rules" {
   default = []
 }
 
-variable "dev_ingress_rules" {
+variable "devman_ingress_rules" {
   type = list(object({
     from_port   = number
     to_port     = number
@@ -293,7 +293,7 @@ variable "dev_ingress_rules" {
   default = []
 }
 
-variable "dev_egress_rules" {
+variable "devman_egress_rules" {
   type = list(object({
     from_port   = number
     to_port     = number
@@ -305,54 +305,54 @@ variable "dev_egress_rules" {
 }
 
 //ACL
-variable "app_inbound_acl_rules" {
+variable "appadmin_inbound_acl_rules" {
   description = "Public subnets inbound network ACLs"
   type        = list(map(string))
   default     = []
 }
 
-variable "app_outbound_acl_rules" {
+variable "appadmin_outbound_acl_rules" {
   description = "APP subnets outbound network ACLs"
   type        = list(map(string))
   default     = []
 }
 
-variable "prod_inbound_acl_rules" {
+variable "prodman_inbound_acl_rules" {
   description = "Prod subnets inbound network ACLs"
   type        = list(map(string))
 
   default = []
 }
 
-variable "prod_outbound_acl_rules" {
+variable "prodman_outbound_acl_rules" {
   description = "Prod subnets outbound network ACLs"
   type        = list(map(string))
 
   default = []
 }
 
-variable "qa_inbound_acl_rules" {
+variable "qaman_inbound_acl_rules" {
   description = "Private subnets inbound network ACLs"
   type        = list(map(string))
 
   default = []
 }
 
-variable "qa_outbound_acl_rules" {
+variable "qaman_outbound_acl_rules" {
   description = "Private subnets outbound network ACLs"
   type        = list(map(string))
 
   default = []
 }
 
-variable "dev_inbound_acl_rules" {
+variable "devman_inbound_acl_rules" {
   description = "DB subnets inbound network ACLs"
   type        = list(map(string))
 
   default = []
 }
 
-variable "dev_outbound_acl_rules" {
+variable "devman_outbound_acl_rules" {
   description = "DB subnets outbound network ACLs"
   type        = list(map(string))
 

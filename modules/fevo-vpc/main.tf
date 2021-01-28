@@ -24,45 +24,45 @@ resource "aws_vpc_ipv4_cidr_block_association" "this" {
 # VPC SUBNETS
 # -----------
 
-// APPMAN Subnet
-resource "aws_subnet" "app_subnet" {
+// APPAdmin Subnet
+resource "aws_subnet" "appadmin_subnet" {
   vpc_id               = aws_vpc.vpc.id
-  count                = length(var.app_subnets)
-  cidr_block           = element(concat(var.app_subnets, [""]), count.index)
+  count                = length(var.appadmin_subnets)
+  cidr_block           = element(concat(var.appadmin_subnets, [""]), count.index)
   availability_zone    = length(regexall("^[a-z]{2}-", element(var.azs, count.index))) > 0 ? element(var.azs, count.index) : null
   availability_zone_id = length(regexall("^[a-z]{2}-", element(var.azs, count.index))) == 0 ? element(var.azs, count.index) : null
 
   tags = merge(
     {
       "Name" = format(
-        "%s-${var.app_subnet_suffix}-%s",
+        "%s-${var.appadmin_subnet_suffix}-%s",
         var.envrname,
         element(var.azs, count.index),
       )
     },
     var.tags,
-    var.app_subnet_tags,
+    var.appadmin_subnet_tags,
   )
 }
 
 // PRODMAN Subnet
-resource "aws_subnet" "prod_subnet" {
+resource "aws_subnet" "prodman_subnet" {
   vpc_id               = aws_vpc.vpc.id
-  count                = length(var.prod_subnets)
-  cidr_block           = element(concat(var.prod_subnets, [""]), count.index)
+  count                = length(var.prodman_subnets)
+  cidr_block           = element(concat(var.prodman_subnets, [""]), count.index)
   availability_zone    = length(regexall("^[a-z]{2}-", element(var.azs, count.index))) > 0 ? element(var.azs, count.index) : null
   availability_zone_id = length(regexall("^[a-z]{2}-", element(var.azs, count.index))) == 0 ? element(var.azs, count.index) : null
 
   tags = merge(
     {
       "Name" = format(
-        "%s-${var.prod_subnet_suffix}-%s",
+        "%s-${var.prodman_subnet_suffix}-%s",
         var.envrname,
         element(var.azs, count.index),
       )
     },
     var.tags,
-    var.prod_subnet_tags,
+    var.prodman_subnet_tags,
   )
 
   depends_on = [
@@ -71,23 +71,23 @@ resource "aws_subnet" "prod_subnet" {
 }
 
 // QAMAN Subnet
-resource "aws_subnet" "qa_subnet" {
+resource "aws_subnet" "qaman_subnet" {
   vpc_id               = aws_vpc.vpc.id
-  count                = length(var.qa_subnets)
-  cidr_block           = element(concat(var.qa_subnets, [""]), count.index)
+  count                = length(var.qaman_subnets)
+  cidr_block           = element(concat(var.qaman_subnets, [""]), count.index)
   availability_zone    = length(regexall("^[a-z]{2}-", element(var.azs, count.index))) > 0 ? element(var.azs, count.index) : null
   availability_zone_id = length(regexall("^[a-z]{2}-", element(var.azs, count.index))) == 0 ? element(var.azs, count.index) : null
 
   tags = merge(
     {
       "Name" = format(
-        "%s-${var.qa_subnet_suffix}-%s",
+        "%s-${var.qaman_subnet_suffix}-%s",
         var.envrname,
         element(var.azs, count.index),
       )
     },
     var.tags,
-    var.qa_subnet_tags,
+    var.qaman_subnet_tags,
   )
 
   depends_on = [
@@ -96,23 +96,23 @@ resource "aws_subnet" "qa_subnet" {
 }
 
 // DEVMAN Subnet
-resource "aws_subnet" "dev_subnet" {
+resource "aws_subnet" "devman_subnet" {
   vpc_id               = aws_vpc.vpc.id
-  count                = length(var.dev_subnets)
-  cidr_block           = element(concat(var.dev_subnets, [""]), count.index)
+  count                = length(var.devman_subnets)
+  cidr_block           = element(concat(var.devman_subnets, [""]), count.index)
   availability_zone    = length(regexall("^[a-z]{2}-", element(var.azs, count.index))) > 0 ? element(var.azs, count.index) : null
   availability_zone_id = length(regexall("^[a-z]{2}-", element(var.azs, count.index))) == 0 ? element(var.azs, count.index) : null
 
   tags = merge(
     {
       "Name" = format(
-        "%s-${var.dev_subnet_suffix}-%s",
+        "%s-${var.devman_subnet_suffix}-%s",
         var.envrname,
         element(var.azs, count.index),
       )
     },
     var.tags,
-    var.dev_subnet_tags,
+    var.devman_subnet_tags,
   )
 
   depends_on = [
@@ -133,32 +133,32 @@ resource "aws_security_group" "app" {
       "Name" = format("%sSG ${var.name[0]}", var.envrname)
     },
     var.tags,
-    var.app_security_group_tags,
+    var.appadmin_security_group_tags,
   )
 
 }
 
-resource "aws_security_group_rule" "app_ingress_rules" {
-  count = length(var.app_ingress_rules)
+resource "aws_security_group_rule" "appadmin_ingress_rules" {
+  count = length(var.appadmin_ingress_rules)
 
   type              = "ingress"
-  from_port         = var.app_ingress_rules[count.index].from_port
-  to_port           = var.app_ingress_rules[count.index].to_port
-  protocol          = var.app_ingress_rules[count.index].protocol
-  cidr_blocks       = [var.app_ingress_rules[count.index].cidr_block]
-  description       = var.app_ingress_rules[count.index].description
+  from_port         = var.appadmin_ingress_rules[count.index].from_port
+  to_port           = var.appadmin_ingress_rules[count.index].to_port
+  protocol          = var.appadmin_ingress_rules[count.index].protocol
+  cidr_blocks       = [var.appadmin_ingress_rules[count.index].cidr_block]
+  description       = var.appadmin_ingress_rules[count.index].description
   security_group_id = aws_security_group.app.id
 }
 
-resource "aws_security_group_rule" "app_egress_rules" {
-  count = length(var.app_egress_rules)
+resource "aws_security_group_rule" "appadmin_egress_rules" {
+  count = length(var.appadmin_egress_rules)
 
   type              = "egress"
-  from_port         = var.app_egress_rules[count.index].from_port
-  to_port           = var.app_egress_rules[count.index].to_port
-  protocol          = var.app_egress_rules[count.index].protocol
-  cidr_blocks       = [var.app_egress_rules[count.index].cidr_block]
-  description       = var.app_egress_rules[count.index].description
+  from_port         = var.appadmin_egress_rules[count.index].from_port
+  to_port           = var.appadmin_egress_rules[count.index].to_port
+  protocol          = var.appadmin_egress_rules[count.index].protocol
+  cidr_blocks       = [var.appadmin_egress_rules[count.index].cidr_block]
+  description       = var.appadmin_egress_rules[count.index].description
   security_group_id = aws_security_group.app.id
 }
 
@@ -173,32 +173,32 @@ resource "aws_security_group" "prod" {
       "Name" = format("%sSG ${var.name[1]}", var.envrname)
     },
     var.tags,
-    var.prod_security_group_tags,
+    var.prodman_security_group_tags,
   )
 
 }
 
-resource "aws_security_group_rule" "prod_ingress_rules" {
-  count = length(var.prod_ingress_rules)
+resource "aws_security_group_rule" "prodman_ingress_rules" {
+  count = length(var.prodman_ingress_rules)
 
   type              = "ingress"
-  from_port         = var.prod_ingress_rules[count.index].from_port
-  to_port           = var.prod_ingress_rules[count.index].to_port
-  protocol          = var.prod_ingress_rules[count.index].protocol
-  cidr_blocks       = [var.prod_ingress_rules[count.index].cidr_block]
-  description       = var.prod_ingress_rules[count.index].description
+  from_port         = var.prodman_ingress_rules[count.index].from_port
+  to_port           = var.prodman_ingress_rules[count.index].to_port
+  protocol          = var.prodman_ingress_rules[count.index].protocol
+  cidr_blocks       = [var.prodman_ingress_rules[count.index].cidr_block]
+  description       = var.prodman_ingress_rules[count.index].description
   security_group_id = aws_security_group.prod.id
 }
 
-resource "aws_security_group_rule" "prod_egress_rules" {
-  count = length(var.prod_egress_rules)
+resource "aws_security_group_rule" "prodman_egress_rules" {
+  count = length(var.prodman_egress_rules)
 
   type              = "egress"
-  from_port         = var.prod_egress_rules[count.index].from_port
-  to_port           = var.prod_egress_rules[count.index].to_port
-  protocol          = var.prod_egress_rules[count.index].protocol
-  cidr_blocks       = [var.prod_egress_rules[count.index].cidr_block]
-  description       = var.prod_egress_rules[count.index].description
+  from_port         = var.prodman_egress_rules[count.index].from_port
+  to_port           = var.prodman_egress_rules[count.index].to_port
+  protocol          = var.prodman_egress_rules[count.index].protocol
+  cidr_blocks       = [var.prodman_egress_rules[count.index].cidr_block]
+  description       = var.prodman_egress_rules[count.index].description
   security_group_id = aws_security_group.prod.id
 }
 
@@ -212,32 +212,32 @@ resource "aws_security_group" "qa" {
       "Name" = format("%sSG QA ", var.envrname)
     },
     var.tags,
-    var.qa_security_group_tags,
+    var.qaman_security_group_tags,
   )
 
 }
 
-resource "aws_security_group_rule" "qa_ingress_rules" {
-  count = length(var.qa_ingress_rules)
+resource "aws_security_group_rule" "qaman_ingress_rules" {
+  count = length(var.qaman_ingress_rules)
 
   type              = "ingress"
-  from_port         = var.qa_ingress_rules[count.index].from_port
-  to_port           = var.qa_ingress_rules[count.index].to_port
-  protocol          = var.qa_ingress_rules[count.index].protocol
-  cidr_blocks       = [var.qa_ingress_rules[count.index].cidr_block]
-  description       = var.qa_ingress_rules[count.index].description
+  from_port         = var.qaman_ingress_rules[count.index].from_port
+  to_port           = var.qaman_ingress_rules[count.index].to_port
+  protocol          = var.qaman_ingress_rules[count.index].protocol
+  cidr_blocks       = [var.qaman_ingress_rules[count.index].cidr_block]
+  description       = var.qaman_ingress_rules[count.index].description
   security_group_id = aws_security_group.qa.id
 }
 
-resource "aws_security_group_rule" "qa_egress_rules" {
-  count = length(var.qa_egress_rules)
+resource "aws_security_group_rule" "qaman_egress_rules" {
+  count = length(var.qaman_egress_rules)
 
   type              = "egress"
-  from_port         = var.qa_egress_rules[count.index].from_port
-  to_port           = var.qa_egress_rules[count.index].to_port
-  protocol          = var.qa_egress_rules[count.index].protocol
-  cidr_blocks       = [var.qa_egress_rules[count.index].cidr_block]
-  description       = var.qa_egress_rules[count.index].description
+  from_port         = var.qaman_egress_rules[count.index].from_port
+  to_port           = var.qaman_egress_rules[count.index].to_port
+  protocol          = var.qaman_egress_rules[count.index].protocol
+  cidr_blocks       = [var.qaman_egress_rules[count.index].cidr_block]
+  description       = var.qaman_egress_rules[count.index].description
   security_group_id = aws_security_group.qa.id
 }
 
@@ -251,31 +251,31 @@ resource "aws_security_group" "dev" {
       "Name" = format("%sSG ${var.name[2]}", var.envrname)
     },
     var.tags,
-    var.dev_security_group_tags,
+    var.devman_security_group_tags,
   )
 
 }
-resource "aws_security_group_rule" "dev_ingress_rules" {
-  count = length(var.dev_ingress_rules)
+resource "aws_security_group_rule" "devman_ingress_rules" {
+  count = length(var.devman_ingress_rules)
 
   type              = "ingress"
-  from_port         = var.dev_ingress_rules[count.index].from_port
-  to_port           = var.dev_ingress_rules[count.index].to_port
-  protocol          = var.dev_ingress_rules[count.index].protocol
-  cidr_blocks       = [var.dev_ingress_rules[count.index].cidr_block]
-  description       = var.dev_ingress_rules[count.index].description
+  from_port         = var.devman_ingress_rules[count.index].from_port
+  to_port           = var.devman_ingress_rules[count.index].to_port
+  protocol          = var.devman_ingress_rules[count.index].protocol
+  cidr_blocks       = [var.devman_ingress_rules[count.index].cidr_block]
+  description       = var.devman_ingress_rules[count.index].description
   security_group_id = aws_security_group.dev.id
 }
 
-resource "aws_security_group_rule" "dev_egress_rules" {
-  count = length(var.dev_egress_rules)
+resource "aws_security_group_rule" "devman_egress_rules" {
+  count = length(var.devman_egress_rules)
 
   type              = "egress"
-  from_port         = var.dev_egress_rules[count.index].from_port
-  to_port           = var.dev_egress_rules[count.index].to_port
-  protocol          = var.dev_egress_rules[count.index].protocol
-  cidr_blocks       = [var.dev_egress_rules[count.index].cidr_block]
-  description       = var.dev_egress_rules[count.index].description
+  from_port         = var.devman_egress_rules[count.index].from_port
+  to_port           = var.devman_egress_rules[count.index].to_port
+  protocol          = var.devman_egress_rules[count.index].protocol
+  cidr_blocks       = [var.devman_egress_rules[count.index].cidr_block]
+  description       = var.devman_egress_rules[count.index].description
   security_group_id = aws_security_group.dev.id
 }
 
@@ -286,199 +286,199 @@ resource "aws_security_group_rule" "dev_egress_rules" {
 //APP ACL + Associate APP Subnets
 
 resource "aws_network_acl" "aclapp" {
-  count = length(var.prod_subnets) > 0 ? 1 : 0
+  count = length(var.prodman_subnets) > 0 ? 1 : 0
 
   vpc_id     = aws_vpc.vpc.id
-  subnet_ids = aws_subnet.app_subnet.*.id
+  subnet_ids = aws_subnet.appadmin_subnet.*.id
 
   tags = merge(
     {
-      "Name" = format("%s-${var.app_subnet_suffix}", var.envrname)
+      "Name" = format("%s-${var.appadmin_subnet_suffix}", var.envrname)
     },
     var.tags,
-    var.app_acl_tags,
+    var.appadmin_acl_tags,
   )
 }
 // Create Engress/Ingress rules:
-resource "aws_network_acl_rule" "app_inbound" {
-  count = length(var.app_subnets) > 0 ? length(var.app_inbound_acl_rules) : 0
+resource "aws_network_acl_rule" "appadmin_inbound" {
+  count = length(var.appadmin_subnets) > 0 ? length(var.appadmin_inbound_acl_rules) : 0
 
   network_acl_id = aws_network_acl.aclapp.*.id
 
   egress          = false
-  rule_number     = var.app_inbound_acl_rules[count.index]["rule_number"]
-  rule_action     = var.app_inbound_acl_rules[count.index]["rule_action"]
-  from_port       = lookup(var.app_inbound_acl_rules[count.index], "from_port", null)
-  to_port         = lookup(var.app_inbound_acl_rules[count.index], "to_port", null)
-  icmp_code       = lookup(var.app_inbound_acl_rules[count.index], "icmp_code", null)
-  icmp_type       = lookup(var.app_inbound_acl_rules[count.index], "icmp_type", null)
-  protocol        = var.app_inbound_acl_rules[count.index]["protocol"]
-  cidr_block      = lookup(var.app_inbound_acl_rules[count.index], "cidr_block", null)
-  ipv6_cidr_block = lookup(var.app_inbound_acl_rules[count.index], "ipv6_cidr_block", null)
+  rule_number     = var.appadmin_inbound_acl_rules[count.index]["rule_number"]
+  rule_action     = var.appadmin_inbound_acl_rules[count.index]["rule_action"]
+  from_port       = lookup(var.appadmin_inbound_acl_rules[count.index], "from_port", null)
+  to_port         = lookup(var.appadmin_inbound_acl_rules[count.index], "to_port", null)
+  icmp_code       = lookup(var.appadmin_inbound_acl_rules[count.index], "icmp_code", null)
+  icmp_type       = lookup(var.appadmin_inbound_acl_rules[count.index], "icmp_type", null)
+  protocol        = var.appadmin_inbound_acl_rules[count.index]["protocol"]
+  cidr_block      = lookup(var.appadmin_inbound_acl_rules[count.index], "cidr_block", null)
+  ipv6_cidr_block = lookup(var.appadmin_inbound_acl_rules[count.index], "ipv6_cidr_block", null)
 }
 
-resource "aws_network_acl_rule" "app_outbound" {
-  count = length(var.app_subnets) > 0 ? length(var.app_outbound_acl_rules) : 0
+resource "aws_network_acl_rule" "appadmin_outbound" {
+  count = length(var.appadmin_subnets) > 0 ? length(var.appadmin_outbound_acl_rules) : 0
 
   network_acl_id = aws_network_acl.aclapp.*.id
 
   egress          = true
-  rule_number     = var.app_outbound_acl_rules[count.index]["rule_number"]
-  rule_action     = var.app_outbound_acl_rules[count.index]["rule_action"]
-  from_port       = lookup(var.app_outbound_acl_rules[count.index], "from_port", null)
-  to_port         = lookup(var.app_outbound_acl_rules[count.index], "to_port", null)
-  icmp_code       = lookup(var.app_outbound_acl_rules[count.index], "icmp_code", null)
-  icmp_type       = lookup(var.app_outbound_acl_rules[count.index], "icmp_type", null)
-  protocol        = var.app_outbound_acl_rules[count.index]["protocol"]
-  cidr_block      = lookup(var.app_outbound_acl_rules[count.index], "cidr_block", null)
-  ipv6_cidr_block = lookup(var.app_outbound_acl_rules[count.index], "ipv6_cidr_block", null)
+  rule_number     = var.appadmin_outbound_acl_rules[count.index]["rule_number"]
+  rule_action     = var.appadmin_outbound_acl_rules[count.index]["rule_action"]
+  from_port       = lookup(var.appadmin_outbound_acl_rules[count.index], "from_port", null)
+  to_port         = lookup(var.appadmin_outbound_acl_rules[count.index], "to_port", null)
+  icmp_code       = lookup(var.appadmin_outbound_acl_rules[count.index], "icmp_code", null)
+  icmp_type       = lookup(var.appadmin_outbound_acl_rules[count.index], "icmp_type", null)
+  protocol        = var.appadmin_outbound_acl_rules[count.index]["protocol"]
+  cidr_block      = lookup(var.appadmin_outbound_acl_rules[count.index], "cidr_block", null)
+  ipv6_cidr_block = lookup(var.appadmin_outbound_acl_rules[count.index], "ipv6_cidr_block", null)
 }
 
 // PROD ACL
 resource "aws_network_acl" "aclprod" {
-  count = length(var.prod_subnets) > 0 ? 1 : 0
+  count = length(var.prodman_subnets) > 0 ? 1 : 0
 
   vpc_id     = aws_vpc.vpc.id
-  subnet_ids = aws_subnet.prod_subnet.*.id
+  subnet_ids = aws_subnet.prodman_subnet.*.id
 
   tags = merge(
     {
-      "Name" = format("%s-${var.prod_subnet_suffix}", var.envrname)
+      "Name" = format("%s-${var.prodman_subnet_suffix}", var.envrname)
     },
     var.tags,
-    var.prod_acl_tags,
+    var.prodman_acl_tags,
   )
 }
-resource "aws_network_acl_rule" "prod_inbound" {
-  count = length(var.prod_subnets) > 0 ? length(var.prod_inbound_acl_rules) : 0
+resource "aws_network_acl_rule" "prodman_inbound" {
+  count = length(var.prodman_subnets) > 0 ? length(var.prodman_inbound_acl_rules) : 0
 
   network_acl_id = aws_network_acl.aclprod[0].id
 
   egress          = false
-  rule_number     = var.prod_inbound_acl_rules[count.index]["rule_number"]
-  rule_action     = var.prod_inbound_acl_rules[count.index]["rule_action"]
-  from_port       = lookup(var.prod_inbound_acl_rules[count.index], "from_port", null)
-  to_port         = lookup(var.prod_inbound_acl_rules[count.index], "to_port", null)
-  icmp_code       = lookup(var.prod_inbound_acl_rules[count.index], "icmp_code", null)
-  icmp_type       = lookup(var.prod_inbound_acl_rules[count.index], "icmp_type", null)
-  protocol        = var.prod_inbound_acl_rules[count.index]["protocol"]
-  cidr_block      = lookup(var.prod_inbound_acl_rules[count.index], "cidr_block", null)
-  ipv6_cidr_block = lookup(var.prod_inbound_acl_rules[count.index], "ipv6_cidr_block", null)
+  rule_number     = var.prodman_inbound_acl_rules[count.index]["rule_number"]
+  rule_action     = var.prodman_inbound_acl_rules[count.index]["rule_action"]
+  from_port       = lookup(var.prodman_inbound_acl_rules[count.index], "from_port", null)
+  to_port         = lookup(var.prodman_inbound_acl_rules[count.index], "to_port", null)
+  icmp_code       = lookup(var.prodman_inbound_acl_rules[count.index], "icmp_code", null)
+  icmp_type       = lookup(var.prodman_inbound_acl_rules[count.index], "icmp_type", null)
+  protocol        = var.prodman_inbound_acl_rules[count.index]["protocol"]
+  cidr_block      = lookup(var.prodman_inbound_acl_rules[count.index], "cidr_block", null)
+  ipv6_cidr_block = lookup(var.prodman_inbound_acl_rules[count.index], "ipv6_cidr_block", null)
 }
 
-resource "aws_network_acl_rule" "prod_outbound" {
-  count = length(var.prod_subnets) > 0 ? length(var.prod_outbound_acl_rules) : 0
+resource "aws_network_acl_rule" "prodman_outbound" {
+  count = length(var.prodman_subnets) > 0 ? length(var.prodman_outbound_acl_rules) : 0
 
   network_acl_id = aws_network_acl.aclprod[0].id
 
   egress          = true
-  rule_number     = var.prod_outbound_acl_rules[count.index]["rule_number"]
-  rule_action     = var.prod_outbound_acl_rules[count.index]["rule_action"]
-  from_port       = lookup(var.prod_outbound_acl_rules[count.index], "from_port", null)
-  to_port         = lookup(var.prod_outbound_acl_rules[count.index], "to_port", null)
-  icmp_code       = lookup(var.prod_outbound_acl_rules[count.index], "icmp_code", null)
-  icmp_type       = lookup(var.prod_outbound_acl_rules[count.index], "icmp_type", null)
-  protocol        = var.prod_outbound_acl_rules[count.index]["protocol"]
-  cidr_block      = lookup(var.prod_outbound_acl_rules[count.index], "cidr_block", null)
-  ipv6_cidr_block = lookup(var.prod_outbound_acl_rules[count.index], "ipv6_cidr_block", null)
+  rule_number     = var.prodman_outbound_acl_rules[count.index]["rule_number"]
+  rule_action     = var.prodman_outbound_acl_rules[count.index]["rule_action"]
+  from_port       = lookup(var.prodman_outbound_acl_rules[count.index], "from_port", null)
+  to_port         = lookup(var.prodman_outbound_acl_rules[count.index], "to_port", null)
+  icmp_code       = lookup(var.prodman_outbound_acl_rules[count.index], "icmp_code", null)
+  icmp_type       = lookup(var.prodman_outbound_acl_rules[count.index], "icmp_type", null)
+  protocol        = var.prodman_outbound_acl_rules[count.index]["protocol"]
+  cidr_block      = lookup(var.prodman_outbound_acl_rules[count.index], "cidr_block", null)
+  ipv6_cidr_block = lookup(var.prodman_outbound_acl_rules[count.index], "ipv6_cidr_block", null)
 }
 
 // QA ACL
 resource "aws_network_acl" "aclqc" {
-  count = length(var.qa_subnets) > 0 ? 1 : 0
+  count = length(var.qaman_subnets) > 0 ? 1 : 0
 
   vpc_id     = aws_vpc.vpc.id
-  subnet_ids = aws_subnet.qa_subnet.*.id
+  subnet_ids = aws_subnet.qaman_subnet.*.id
 
   tags = merge(
     {
-      "Name" = format("%s-${var.qa_subnet_suffix}", var.envrname)
+      "Name" = format("%s-${var.qaman_subnet_suffix}", var.envrname)
     },
     var.tags,
-    var.qa_acl_tags,
+    var.qaman_acl_tags,
   )
 }
-resource "aws_network_acl_rule" "qa_inbound" {
-  count = length(var.qa_subnets) > 0 ? length(var.qa_inbound_acl_rules) : 0
+resource "aws_network_acl_rule" "qaman_inbound" {
+  count = length(var.qaman_subnets) > 0 ? length(var.qaman_inbound_acl_rules) : 0
 
   network_acl_id = aws_network_acl.aclqc[0].id
 
   egress          = false
-  rule_number     = var.qa_inbound_acl_rules[count.index]["rule_number"]
-  rule_action     = var.qa_inbound_acl_rules[count.index]["rule_action"]
-  from_port       = lookup(var.qa_inbound_acl_rules[count.index], "from_port", null)
-  to_port         = lookup(var.qa_inbound_acl_rules[count.index], "to_port", null)
-  icmp_code       = lookup(var.qa_inbound_acl_rules[count.index], "icmp_code", null)
-  icmp_type       = lookup(var.qa_inbound_acl_rules[count.index], "icmp_type", null)
-  protocol        = var.qa_inbound_acl_rules[count.index]["protocol"]
-  cidr_block      = lookup(var.qa_inbound_acl_rules[count.index], "cidr_block", null)
-  ipv6_cidr_block = lookup(var.qa_inbound_acl_rules[count.index], "ipv6_cidr_block", null)
+  rule_number     = var.qaman_inbound_acl_rules[count.index]["rule_number"]
+  rule_action     = var.qaman_inbound_acl_rules[count.index]["rule_action"]
+  from_port       = lookup(var.qaman_inbound_acl_rules[count.index], "from_port", null)
+  to_port         = lookup(var.qaman_inbound_acl_rules[count.index], "to_port", null)
+  icmp_code       = lookup(var.qaman_inbound_acl_rules[count.index], "icmp_code", null)
+  icmp_type       = lookup(var.qaman_inbound_acl_rules[count.index], "icmp_type", null)
+  protocol        = var.qaman_inbound_acl_rules[count.index]["protocol"]
+  cidr_block      = lookup(var.qaman_inbound_acl_rules[count.index], "cidr_block", null)
+  ipv6_cidr_block = lookup(var.qaman_inbound_acl_rules[count.index], "ipv6_cidr_block", null)
 }
 
-resource "aws_network_acl_rule" "qa_outbound" {
-  count = length(var.qa_subnets) > 0 ? length(var.qa_outbound_acl_rules) : 0
+resource "aws_network_acl_rule" "qaman_outbound" {
+  count = length(var.qaman_subnets) > 0 ? length(var.qaman_outbound_acl_rules) : 0
 
   network_acl_id = aws_network_acl.aclqc[0].id
 
   egress          = true
-  rule_number     = var.qa_outbound_acl_rules[count.index]["rule_number"]
-  rule_action     = var.qa_outbound_acl_rules[count.index]["rule_action"]
-  from_port       = lookup(var.qa_outbound_acl_rules[count.index], "from_port", null)
-  to_port         = lookup(var.qa_outbound_acl_rules[count.index], "to_port", null)
-  icmp_code       = lookup(var.qa_outbound_acl_rules[count.index], "icmp_code", null)
-  icmp_type       = lookup(var.qa_outbound_acl_rules[count.index], "icmp_type", null)
-  protocol        = var.qa_outbound_acl_rules[count.index]["protocol"]
-  cidr_block      = lookup(var.qa_outbound_acl_rules[count.index], "cidr_block", null)
-  ipv6_cidr_block = lookup(var.qa_outbound_acl_rules[count.index], "ipv6_cidr_block", null)
+  rule_number     = var.qaman_outbound_acl_rules[count.index]["rule_number"]
+  rule_action     = var.qaman_outbound_acl_rules[count.index]["rule_action"]
+  from_port       = lookup(var.qaman_outbound_acl_rules[count.index], "from_port", null)
+  to_port         = lookup(var.qaman_outbound_acl_rules[count.index], "to_port", null)
+  icmp_code       = lookup(var.qaman_outbound_acl_rules[count.index], "icmp_code", null)
+  icmp_type       = lookup(var.qaman_outbound_acl_rules[count.index], "icmp_type", null)
+  protocol        = var.qaman_outbound_acl_rules[count.index]["protocol"]
+  cidr_block      = lookup(var.qaman_outbound_acl_rules[count.index], "cidr_block", null)
+  ipv6_cidr_block = lookup(var.qaman_outbound_acl_rules[count.index], "ipv6_cidr_block", null)
 }
 
 // DEV ACL
 resource "aws_network_acl" "acldev" {
-  count = length(var.dev_subnets) > 0 ? 1 : 0
+  count = length(var.devman_subnets) > 0 ? 1 : 0
 
   vpc_id     = aws_vpc.vpc.id
-  subnet_ids = aws_subnet.dev_subnet.*.id
+  subnet_ids = aws_subnet.devman_subnet.*.id
 
   tags = merge(
     {
-      "Name" = format("%s-${var.dev_subnet_suffix}", var.envrname)
+      "Name" = format("%s-${var.devman_subnet_suffix}", var.envrname)
     },
     var.tags,
-    var.dev_acl_tags,
+    var.devman_acl_tags,
   )
 }
-resource "aws_network_acl_rule" "dev_inbound" {
-  count = length(var.dev_subnets) > 0 ? length(var.dev_inbound_acl_rules) : 0
+resource "aws_network_acl_rule" "devman_inbound" {
+  count = length(var.devman_subnets) > 0 ? length(var.devman_inbound_acl_rules) : 0
 
   network_acl_id = aws_network_acl.acldev[0].id
 
   egress          = false
-  rule_number     = var.dev_inbound_acl_rules[count.index]["rule_number"]
-  rule_action     = var.dev_inbound_acl_rules[count.index]["rule_action"]
-  from_port       = lookup(var.dev_inbound_acl_rules[count.index], "from_port", null)
-  to_port         = lookup(var.dev_inbound_acl_rules[count.index], "to_port", null)
-  icmp_code       = lookup(var.dev_inbound_acl_rules[count.index], "icmp_code", null)
-  icmp_type       = lookup(var.dev_inbound_acl_rules[count.index], "icmp_type", null)
-  protocol        = var.dev_inbound_acl_rules[count.index]["protocol"]
-  cidr_block      = lookup(var.dev_inbound_acl_rules[count.index], "cidr_block", null)
-  ipv6_cidr_block = lookup(var.dev_inbound_acl_rules[count.index], "ipv6_cidr_block", null)
+  rule_number     = var.devman_inbound_acl_rules[count.index]["rule_number"]
+  rule_action     = var.devman_inbound_acl_rules[count.index]["rule_action"]
+  from_port       = lookup(var.devman_inbound_acl_rules[count.index], "from_port", null)
+  to_port         = lookup(var.devman_inbound_acl_rules[count.index], "to_port", null)
+  icmp_code       = lookup(var.devman_inbound_acl_rules[count.index], "icmp_code", null)
+  icmp_type       = lookup(var.devman_inbound_acl_rules[count.index], "icmp_type", null)
+  protocol        = var.devman_inbound_acl_rules[count.index]["protocol"]
+  cidr_block      = lookup(var.devman_inbound_acl_rules[count.index], "cidr_block", null)
+  ipv6_cidr_block = lookup(var.devman_inbound_acl_rules[count.index], "ipv6_cidr_block", null)
 }
 
-resource "aws_network_acl_rule" "dev_outbound" {
-  count = length(var.dev_subnets) > 0 ? length(var.dev_outbound_acl_rules) : 0
+resource "aws_network_acl_rule" "devman_outbound" {
+  count = length(var.devman_subnets) > 0 ? length(var.devman_outbound_acl_rules) : 0
 
   network_acl_id = aws_network_acl.acldev[0].id
 
   egress          = true
-  rule_number     = var.dev_outbound_acl_rules[count.index]["rule_number"]
-  rule_action     = var.dev_outbound_acl_rules[count.index]["rule_action"]
-  from_port       = lookup(var.dev_outbound_acl_rules[count.index], "from_port", null)
-  to_port         = lookup(var.dev_outbound_acl_rules[count.index], "to_port", null)
-  icmp_code       = lookup(var.dev_outbound_acl_rules[count.index], "icmp_code", null)
-  icmp_type       = lookup(var.dev_outbound_acl_rules[count.index], "icmp_type", null)
-  protocol        = var.dev_outbound_acl_rules[count.index]["protocol"]
-  cidr_block      = lookup(var.dev_outbound_acl_rules[count.index], "cidr_block", null)
-  ipv6_cidr_block = lookup(var.dev_outbound_acl_rules[count.index], "ipv6_cidr_block", null)
+  rule_number     = var.devman_outbound_acl_rules[count.index]["rule_number"]
+  rule_action     = var.devman_outbound_acl_rules[count.index]["rule_action"]
+  from_port       = lookup(var.devman_outbound_acl_rules[count.index], "from_port", null)
+  to_port         = lookup(var.devman_outbound_acl_rules[count.index], "to_port", null)
+  icmp_code       = lookup(var.devman_outbound_acl_rules[count.index], "icmp_code", null)
+  icmp_type       = lookup(var.devman_outbound_acl_rules[count.index], "icmp_type", null)
+  protocol        = var.devman_outbound_acl_rules[count.index]["protocol"]
+  cidr_block      = lookup(var.devman_outbound_acl_rules[count.index], "cidr_block", null)
+  ipv6_cidr_block = lookup(var.devman_outbound_acl_rules[count.index], "ipv6_cidr_block", null)
 }
 
 # -----------------------------
@@ -532,7 +532,7 @@ resource "aws_vpc_peering_connection_accepter" "acceptor" {
 # APP Route
 resource "aws_route_table" "rtapp" {
   vpc_id = aws_vpc.vpc.id
-  count  = length(var.app_subnets)
+  count  = length(var.appadmin_subnets)
 
   route {
     cidr_block                = var.rtsharedservice
@@ -541,81 +541,81 @@ resource "aws_route_table" "rtapp" {
 
   tags = merge(
     {
-      "Name"        = format("%s-${var.app_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
-      "Description" = format("%s-${var.app_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
+      "Name"        = format("%s-${var.appadmin_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
+      "Description" = format("%s-${var.appadmin_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
     },
     var.tags,
-    var.app_route_table_tags,
+    var.appadmin_route_table_tags,
   )
 }
 
 # PROD Route
 resource "aws_route_table" "rtprod" {
   vpc_id = aws_vpc.vpc.id
-  count  = length(var.prod_subnets)
+  count  = length(var.prodman_subnets)
 
   tags = merge(
     {
-      "Name"        = format("%s-${var.prod_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
-      "Description" = format("%s-${var.prod_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
+      "Name"        = format("%s-${var.prodman_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
+      "Description" = format("%s-${var.prodman_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
     },
     var.tags,
-    var.prod_route_table_tags,
+    var.prodman_route_table_tags,
   )
 }
 
 # QA Route
 resource "aws_route_table" "rtqa" {
   vpc_id = aws_vpc.vpc.id
-  count  = length(var.qa_subnets)
+  count  = length(var.qaman_subnets)
 
   tags = merge(
     {
-      "Name"        = format("%s-${var.qa_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
-      "Description" = format("%s-${var.qa_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
+      "Name"        = format("%s-${var.qaman_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
+      "Description" = format("%s-${var.qaman_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
     },
     var.tags,
-    var.qa_route_table_tags,
+    var.qaman_route_table_tags,
   )
 }
 
 # DEV Route
 resource "aws_route_table" "rtdev" {
   vpc_id = aws_vpc.vpc.id
-  count  = length(var.dev_subnets)
+  count  = length(var.devman_subnets)
 
   tags = merge(
     {
-      "Name"        = format("%s-${var.dev_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
-      "Description" = format("%s-${var.dev_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
+      "Name"        = format("%s-${var.devman_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
+      "Description" = format("%s-${var.devman_subnet_suffix}-%s", var.envrname, element(var.azs, count.index), )
     },
     var.tags,
-    var.dev_route_table_tags,
+    var.devman_route_table_tags,
   )
 }
 
 ### Associate Route Table with Subnet
 resource "aws_route_table_association" "app" {
-  count          = length(var.app_subnets)
-  subnet_id      = aws_subnet.app_subnet[count.index].id
+  count          = length(var.appadmin_subnets)
+  subnet_id      = aws_subnet.appadmin_subnet[count.index].id
   route_table_id = aws_route_table.rtapp[count.index].id
 }
 
 resource "aws_route_table_association" "prod" {
-  count          = length(var.prod_subnets)
-  subnet_id      = aws_subnet.prod_subnet[count.index].id
+  count          = length(var.prodman_subnets)
+  subnet_id      = aws_subnet.prodman_subnet[count.index].id
   route_table_id = aws_route_table.rtprod[count.index].id
 }
 
 resource "aws_route_table_association" "qa" {
-  count          = length(var.qa_subnets)
-  subnet_id      = aws_subnet.qa_subnet[count.index].id
+  count          = length(var.qaman_subnets)
+  subnet_id      = aws_subnet.qaman_subnet[count.index].id
   route_table_id = aws_route_table.rtqa[count.index].id
 }
 
 
 resource "aws_route_table_association" "dev" {
-  count          = length(var.dev_subnets)
-  subnet_id      = aws_subnet.dev_subnet[count.index].id
+  count          = length(var.devman_subnets)
+  subnet_id      = aws_subnet.devman_subnet[count.index].id
   route_table_id = aws_route_table.rtdev[count.index].id
 }

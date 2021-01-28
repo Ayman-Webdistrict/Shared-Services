@@ -56,22 +56,22 @@ variable "vpc_azs" {
   description = "AWS VPC AZS. For HA should be at least two az."
 }
 
-variable "vpc_app_subnets" {
+variable "vpc_appadmin_subnets" {
   default     = []
   description = "AWS VPC Subnets for AppAdmin"
 }
 
-variable "vpc_prod_subnets" {
+variable "vpc_prodman_subnets" {
   default     = []
   description = "AWS VPC Subnets for ProdMan"
 }
 
-variable "vpc_qa_subnets" {
+variable "vpc_qaman_subnets" {
   default     = []
   description = "AWS VPC Subnets for QAMan"
 }
 
-variable "vpc_dev_subnets" {
+variable "vpc_devman_subnets" {
   default     = []
   description = "AWS VPC Subnets for DevMan"
 }

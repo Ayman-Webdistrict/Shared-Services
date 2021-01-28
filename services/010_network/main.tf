@@ -17,48 +17,48 @@ module "vpc" {
   vpc_tags    = local.vpc.vpc_tags
 
   # APPMAN
-  app_subnets             = local.workspace.app.subnets
-  app_subnet_tags         = local.workspace.app.subnet_tags
-  app_security_group_tags = local.workspace.app.security_group_tags
-  app_acl_tags            = local.workspace.app.acl_tags
-  app_subnet_suffix       = local.workspace.app.subnet_suffix
-  app_ingress_rules       = local.workspace.app.ingress_rules
-  app_egress_rules        = local.workspace.app.egress_rules
-  app_inbound_acl_rules   = local.workspace.app.inbound_acl_rules
-  app_outbound_acl_rules  = local.workspace.app.outbound_acl_rules
+  appadmin_subnets             = local.workspace.appadmin.subnets
+  appadmin_subnet_tags         = local.workspace.appadmin.subnet_tags
+  appadmin_security_group_tags = local.workspace.appadmin.security_group_tags
+  appadmin_acl_tags            = local.workspace.appadmin.acl_tags
+  appadmin_subnet_suffix       = local.workspace.appadmin.subnet_suffix
+  appadmin_ingress_rules       = local.workspace.appadmin.ingress_rules
+  appadmin_egress_rules        = local.workspace.appadmin.egress_rules
+  appadmin_inbound_acl_rules   = local.workspace.appadmin.inbound_acl_rules
+  appadmin_outbound_acl_rules  = local.workspace.appadmin.outbound_acl_rules
 
   # PRODMAN
-  prod_subnets             = local.workspace.prod.subnets
-  prod_subnet_tags         = local.workspace.prod.subnet_tags
-  prod_security_group_tags = local.workspace.prod.security_group_tags
-  prod_acl_tags            = local.workspace.prod.acl_tags
-  prod_subnet_suffix       = local.workspace.prod.subnet_suffix
-  prod_ingress_rules       = local.workspace.prod.ingress_rules
-  prod_egress_rules        = local.workspace.prod.egress_rules
-  prod_inbound_acl_rules   = local.workspace.prod.inbound_acl_rules
-  prod_outbound_acl_rules  = local.workspace.prod.outbound_acl_rules
+  prodman_subnets             = local.workspace.prodman.subnets
+  prodman_subnet_tags         = local.workspace.prodman.subnet_tags
+  prodman_security_group_tags = local.workspace.prodman.security_group_tags
+  prodman_acl_tags            = local.workspace.prodman.acl_tags
+  prodman_subnet_suffix       = local.workspace.prodman.subnet_suffix
+  prodman_ingress_rules       = local.workspace.prodman.ingress_rules
+  prodman_egress_rules        = local.workspace.prodman.egress_rules
+  prodman_inbound_acl_rules   = local.workspace.prodman.inbound_acl_rules
+  prodman_outbound_acl_rules  = local.workspace.prodman.outbound_acl_rules
 
   # QAMAN
-  qa_subnets             = local.workspace.qa.subnets
-  qa_subnet_tags         = local.workspace.qa.subnet_tags
-  qa_security_group_tags = local.workspace.qa.security_group_tags
-  qa_acl_tags            = local.workspace.qa.acl_tags
-  qa_subnet_suffix       = local.workspace.qa.subnet_suffix
-  qa_egress_rules        = local.workspace.qa.egress_rules
-  qa_ingress_rules       = local.workspace.qa.ingress_rules
-  qa_inbound_acl_rules   = local.workspace.qa.inbound_acl_rules
-  qa_outbound_acl_rules  = local.workspace.qa.outbound_acl_rules
+  qaman_subnets             = local.workspace.qaman.subnets
+  qaman_subnet_tags         = local.workspace.qaman.subnet_tags
+  qaman_security_group_tags = local.workspace.qaman.security_group_tags
+  qaman_acl_tags            = local.workspace.qaman.acl_tags
+  qaman_subnet_suffix       = local.workspace.qaman.subnet_suffix
+  qaman_egress_rules        = local.workspace.qaman.egress_rules
+  qaman_ingress_rules       = local.workspace.qaman.ingress_rules
+  qaman_inbound_acl_rules   = local.workspace.qaman.inbound_acl_rules
+  qaman_outbound_acl_rules  = local.workspace.qaman.outbound_acl_rules
 
   # DEVMAN
-  dev_subnets             = local.workspace.dev.subnets
-  dev_subnet_tags         = local.workspace.dev.subnet_tags
-  dev_security_group_tags = local.workspace.dev.security_group_tags
-  dev_acl_tags            = local.workspace.dev.acl_tags
-  dev_subnet_suffix       = local.workspace.dev.subnet_suffix
-  dev_ingress_rules       = local.workspace.dev.ingress_rules
-  dev_egress_rules        = local.workspace.dev.egress_rules
-  dev_inbound_acl_rules   = local.workspace.dev.inbound_acl_rules
-  dev_outbound_acl_rules  = local.workspace.dev.outbound_acl_rules
+  devman_subnets             = local.workspace.devman.subnets
+  devman_subnet_tags         = local.workspace.devman.subnet_tags
+  devman_security_group_tags = local.workspace.devman.security_group_tags
+  devman_acl_tags            = local.workspace.devman.acl_tags
+  devman_subnet_suffix       = local.workspace.devman.subnet_suffix
+  devman_ingress_rules       = local.workspace.devman.ingress_rules
+  devman_egress_rules        = local.workspace.devman.egress_rules
+  devman_inbound_acl_rules   = local.workspace.devman.inbound_acl_rules
+  devman_outbound_acl_rules  = local.workspace.devman.outbound_acl_rules
 
   # shared-services-1 peering
   shared_services_1_acceptor_peering_tags            = local.vpc.peering.shared_services_1.acceptor_tags
