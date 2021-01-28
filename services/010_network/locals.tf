@@ -40,22 +40,22 @@ locals {
 
     //peering_name     = var.vpc_peering_name
 
-    app_route_table_tags = {
+    appadmin_route_table_tags = {
       Environment = var.environment
       Namespace   = "shared-services"
     }
 
-    prod_route_table_tags = {
+    prodman_route_table_tags = {
       Environment = var.environment
       Namespace   = "shared-services"
     }
 
-    qa_route_table_tags = {
+    qaman_route_table_tags = {
       Environment = var.environment
       Namespace   = "shared-services"
     }
 
-    dev_route_table_tags = {
+    devman_route_table_tags = {
       Environment = var.environment
       Namespace   = "shared-services"
     }
