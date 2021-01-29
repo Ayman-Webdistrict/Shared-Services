@@ -88,7 +88,7 @@ locals {
 
   env = {
 
-    appadmin = {
+    shared_services = {
 
       # ------
       # APP Admin
@@ -175,15 +175,12 @@ locals {
           },
         ]
       }
-    }
-
-    qa = {
 
       # ------
       # QA MAN
       # ------
 
-      qa = {
+      qaman = {
 
         subnets = var.vpc_qaman_subnets
 
@@ -340,15 +337,11 @@ locals {
         ]
       }
 
-    }
-
-    dev = {
-
       # ------
-      # Dev MAN
+      # DEV MAN
       # ------
 
-      dev = {
+      devman = {
 
         subnets = var.vpc_devman_subnets
 
@@ -504,9 +497,6 @@ locals {
           },
         ]
       }
-    }
-
-    prodman = {
 
       # ------
       # PROD MAN
@@ -668,7 +658,7 @@ locals {
           },
         ]
       }
-    }
 
+    }
   }
 }

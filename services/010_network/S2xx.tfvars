@@ -14,14 +14,14 @@ aws_role_arn      = "arn:aws:iam::484922075568:role/Admin"
 # VPC DETAILS
 # -----------
 
-environment          = "S2XX"
+environment          = "shared_services"
 vpc_name             = "S2XX"
 vpc_cidr             = ["10.30.0.0/16"]
 vpc_azs              = ["us-east-2a", "us-east-2b"]
-vpc_appadmin_subnets      = ["172.30.20.0/24"]
-vpc_prodman_subnets     = ["172.30.21.0/26"]
-vpc_qaman_subnets       = ["172.30.21.64/26"]
-vpc_devman_subnets      = ["172.30.21.128/26"]
+vpc_appadmin_subnets = ["172.30.20.0/24"]
+vpc_prodman_subnets  = ["172.30.21.0/26"]
+vpc_qaman_subnets    = ["172.30.21.64/26"]
+vpc_devman_subnets   = ["172.30.21.128/26"]
 
 # -------------------
 # VPC PEERING DETAILS
