@@ -8,9 +8,8 @@ These types of resources are supported:
 
 ## Terraform versions
 
-Terraform 0.12. Pin module version to `~> v2.0`. Submit pull-requests to `master` branch.
+Terraform 0.13.
 
-Terraform 0.11. Pin module version to `~> v1.0`. Submit pull-requests to `terraform011` branch.
 
 ## Usage
 
@@ -36,67 +35,11 @@ module "ec2_cluster" {
 }
 ```
 
-## Examples
-
-* [Basic EC2 instance](https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/tree/master/examples/basic)
-* [EC2 instance with EBS volume attachment](https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/tree/master/examples/volume-attachment)
-
-## Make an encrypted AMI for use
-
-This module does not support encrypted AMI's out of the box however it is easy enough for you to generate one for use
-
-This example creates an encrypted image from the latest ubuntu 16.04 base image.
-
-
-```hcl
-resource "aws_ami_copy" "ubuntu-xenial-encrypted-ami" {
-  name              = "ubuntu-xenial-encrypted-ami"
-  description       = "An encrypted root ami based off ${data.aws_ami.ubuntu-xenial.id}"
-  source_ami_id     = "${data.aws_ami.ubuntu-xenial.id}"
-  source_ami_region = "eu-west-2"
-  encrypted         = "true"
-
-  tags {
-    Name = "ubuntu-xenial-encrypted-ami"
-  }
-}
-
-data "aws_ami" "encrypted-ami" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu-xenial-encrypted"]
-  }
-
-  owners = ["self"]
-}
-
-data "aws_ami" "ubuntu-xenial" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
-  }
-
-  owners      = ["099720109477"]
-}
-```
-
-
-## Notes
-
-* `network_interface` can't be specified together with `vpc_security_group_ids`, `associate_public_ip_address`, `subnet_id`. See [basic example](https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/tree/master/examples/basic) for details. 
-* Changes in `ebs_block_device` argument will be ignored. Use [aws_volume_attachment](https://www.terraform.io/docs/providers/aws/r/volume_attachment.html) resource to attach and detach volumes from AWS EC2 instances. See [this example](https://github.com/terraform-aws-modules/terraform-aws-ec2-instance/tree/master/examples/volume-attachment).
-* One of `subnet_id` or `subnet_ids` is required. If both are provided, the value of `subnet_id` is prepended to the value of `subnet_ids`.
-
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.6 |
+| terraform | >= 0.13 |
 | aws | >= 2.65 |
 
 ## Providers
@@ -171,13 +114,3 @@ data "aws_ami" "ubuntu-xenial" {
 | tags | List of tags of instances |
 | volume\_tags | List of tags of volumes of instances |
 | vpc\_security\_group\_ids | List of associated security groups of instances, if running in non-default VPC |
-
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-
-## Authors
-
-Module managed by [Anton Babenko](https://github.com/antonbabenko).
-
-## License
-
-Apache 2 Licensed. See LICENSE for full details.

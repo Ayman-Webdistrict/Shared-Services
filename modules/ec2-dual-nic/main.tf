@@ -1,3 +1,7 @@
+############################
+# DUAL NIC EC2 Module 
+############################
+
 resource "aws_instance" "this" {
   count = var.instance_count
 
@@ -16,7 +20,6 @@ resource "aws_instance" "this" {
   iam_instance_profile   = var.iam_instance_profile
   availability_zone      = var.availability_zone
 
-#  associate_public_ip_address = var.associate_public_ip_address
   private_ip                  = length(var.private_ips) > 0 ? element(var.private_ips, count.index) : var.private_ip
   ipv6_address_count          = var.ipv6_address_count
   ipv6_addresses              = var.ipv6_addresses
@@ -49,14 +52,14 @@ resource "aws_instance" "this" {
     }
   }
 
-  #dynamic "network_interface" {
-  #  for_each = var.network_interface
-  #  content {
-  #    device_index          = network_interface.value.device_index
-  #    network_interface_id  = lookup(network_interface.value, "network_interface_id", null)
-  #    delete_on_termination = lookup(network_interface.value, "delete_on_termination", false)
-  #  }
-  #}
+ dynamic "network_interface" {
+   for_each = var.network_interface
+   content {
+     device_index          = network_interface.value.device_index
+     network_interface_id  = lookup(network_interface.value, "network_interface_id", null)
+     delete_on_termination = lookup(network_interface.value, "delete_on_termination", false)
+   }
+ }
 
   source_dest_check                    = length(var.network_interface) > 0 ? null : var.source_dest_check
   disable_api_termination              = var.disable_api_termination
@@ -78,7 +81,4 @@ resource "aws_instance" "this" {
     var.volume_tags,
   )
 
-  #credit_specification {
-  #  cpu_credits = local.is_t_instance_type ? var.cpu_credits : null
-  #}
 }

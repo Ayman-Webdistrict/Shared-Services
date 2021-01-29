@@ -1,0 +1,19 @@
+# ----------------------
+# NETWORK SERVICE TFVARS
+# ----------------------
+
+# --------------------------------
+# AWS ENVIRONMENT VARIABLES VALUES
+# --------------------------------
+
+aws_region   = "eu-west-1"
+#aws_role_arn = "arn:aws:iam::844564028558:role/Admin"
+aws_profile  = "default"
+
+# -----------
+# VPC DETAILS
+# -----------
+
+environment          = "qaman"
+instance_type        = "t2.micro"
+availability_zone    = "eu-west-1b"

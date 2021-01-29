@@ -23,11 +23,6 @@ output "key_name" {
   value       = aws_instance.this.*.key_name
 }
 
-output "password_data" {
-  description = "List of Base-64 encoded encrypted password data for the instance"
-  value       = aws_instance.this.*.password_data
-}
-
 output "ipv6_addresses" {
   description = "List of assigned IPv6 addresses of instances"
   value       = aws_instance.this.*.ipv6_addresses
@@ -62,16 +57,6 @@ output "subnet_id" {
   description = "List of IDs of VPC subnets of instances"
   value       = aws_instance.this.*.subnet_id
 }
-
-#output "credit_specification" {
-#  description = "List of credit specification of instances"
-#  value       = aws_instance.this.*.credit_specification
-#}
-#
-#output "metadata_options" {
-#  description = "List of metadata options of instances"
-#  value       = aws_instance.this.*.metadata_options
-#}
 
 output "instance_state" {
   description = "List of instance states of instances"

@@ -28,8 +28,3 @@ output "instance_id" {
   value       = module.ec2.id[0]
 }
 
-output "get_password_data" {
-  description = "EC2 Password"
-  value       = "module.ec2.get_password_data"
-  
-}
